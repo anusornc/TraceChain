@@ -66,6 +66,12 @@ impl Blockchain {
     }
 
     pub fn is_valid(&self) -> bool {
+        if self.chain.is_empty() {
+            return true;
+        }
+        if self.chain[0].hash != self.chain[0].calculate_hash() {
+            return false;
+        }
         for i in 1..self.chain.len() {
             let current = &self.chain[i];
             let prev = &self.chain[i - 1];
