@@ -1,11 +1,8 @@
-mod blockchain;
-mod rdf_store;
-mod demo;
-
 use clap::{Parser, Subcommand};
 use std::fs;
-use crate::rdf_store::RDFStore;
-use crate::blockchain::Blockchain;
+use uht_trace_blockchain::rdf_store::RDFStore;
+use uht_trace_blockchain::blockchain::Blockchain;
+use uht_trace_blockchain::demo;
 
 #[derive(Parser)]
 #[command(name = "TraceChain")]
