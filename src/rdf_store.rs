@@ -1,15 +1,22 @@
-use oxigraph::MemoryStore;
+use oxigraph::io::GraphFormat;
 use oxigraph::model::*;
 use oxigraph::sparql::QueryResults;
+use oxigraph::store::Store;
 
 pub struct RDFStore {
-    pub store: MemoryStore,
+    pub store: Store,
+}
+
+impl Default for RDFStore {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl RDFStore {
     pub fn new() -> Self {
         RDFStore {
-            store: MemoryStore::new(),
+            store: Store::new().unwrap(),
         }
     }
 
@@ -24,7 +31,7 @@ impl RDFStore {
             .unwrap();
     }
 
-    pub fn query(&self, sparql: &str) -> QueryResults {
-        self.store.query(sparql).unwrap()
+    pub fn query(&self, sparql: &str) -> Result<QueryResults, oxigraph::sparql::EvaluationError> {
+        self.store.query(sparql)
     }
 }
