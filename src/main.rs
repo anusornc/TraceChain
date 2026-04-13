@@ -1,11 +1,7 @@
-mod blockchain;
-mod rdf_store;
-mod demo;
-
 use clap::{Parser, Subcommand};
 use std::fs;
-use crate::rdf_store::RDFStore;
-use crate::blockchain::Blockchain;
+use uht_trace_blockchain::blockchain::Blockchain;
+use uht_trace_blockchain::rdf_store::RDFStore;
 
 #[derive(Parser)]
 #[command(name = "TraceChain")]
@@ -42,14 +38,14 @@ fn main() {
         Commands::Query { path } => {
             let store = RDFStore::new(); // In a real case, load previous blocks' RDF
             let query = fs::read_to_string(path).expect("Cannot read query file");
-            if let oxigraph::sparql::QueryResults::Solutions(solutions) = store.query(&query) {
+            if let Ok(oxigraph::sparql::QueryResults::Solutions(solutions)) = store.query(&query) {
                 for solution in solutions {
                     println!("{:?}", solution.unwrap());
                 }
             }
         }
         Commands::Demo => {
-            demo::run_demo();
+            uht_trace_blockchain::demo::run_demo();
         }
     }
 }

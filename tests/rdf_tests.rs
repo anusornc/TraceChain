@@ -1,5 +1,5 @@
-use tracechain::rdf_store::RDFStore;
 use oxigraph::sparql::QueryResults;
+use uht_trace_blockchain::rdf_store::RDFStore;
 
 #[test]
 fn test_rdf_insertion_and_query() {
@@ -22,10 +22,21 @@ fn test_rdf_insertion_and_query() {
         }
     "#;
 
-    if let QueryResults::Solutions(solutions) = store.query(query) {
+    if let Ok(QueryResults::Solutions(solutions)) = store.query(query) {
         let results: Vec<_> = solutions.collect();
         assert_eq!(results.len(), 1, "Should find exactly one milk batch");
     } else {
         panic!("SPARQL query failed");
     }
+}
+
+#[test]
+fn test_query_invalid_sparql() {
+    let store = RDFStore::new();
+    let query = "INVALID SPARQL QUERY";
+    let result = store.query(query);
+    assert!(
+        result.is_err(),
+        "Invalid SPARQL query should return an error instead of panicking"
+    );
 }
