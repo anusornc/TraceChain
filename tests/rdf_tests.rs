@@ -1,4 +1,4 @@
-use tracechain::rdf_store::RDFStore;
+use uht_trace_blockchain::rdf_store::RDFStore;
 use oxigraph::sparql::QueryResults;
 
 #[test]

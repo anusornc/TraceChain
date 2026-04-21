@@ -26,12 +26,11 @@ impl Block {
     }
 
     pub fn calculate_hash(&self) -> String {
-        let record = format!(
-            "{}{}{}{}",
-            self.index, self.timestamp, self.data, self.previous_hash
-        );
         let mut hasher = Sha256::new();
-        hasher.update(record.as_bytes());
+        hasher.update(self.index.to_string().as_bytes());
+        hasher.update(self.timestamp.as_bytes());
+        hasher.update(self.data.as_bytes());
+        hasher.update(self.previous_hash.as_bytes());
         format!("{:x}", hasher.finalize())
     }
 }
@@ -66,6 +65,14 @@ impl Blockchain {
     }
 
     pub fn is_valid(&self) -> bool {
+        // also check genesis block
+        if self.chain.is_empty() {
+            return false;
+        }
+        if self.chain[0].hash != self.chain[0].calculate_hash() {
+            return false;
+        }
+
         for i in 1..self.chain.len() {
             let current = &self.chain[i];
             let prev = &self.chain[i - 1];
