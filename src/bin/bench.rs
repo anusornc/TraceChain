@@ -2,8 +2,8 @@
 mod blockchain;
 
 use blockchain::Block;
+use sha2::{Digest, Sha256};
 use std::time::Instant;
-use sha2::{Sha256, Digest};
 
 fn main() {
     let block = Block::new(1, "x".repeat(1000), "0".repeat(64));

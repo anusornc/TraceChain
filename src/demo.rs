@@ -2,7 +2,7 @@ use crate::blockchain::Blockchain;
 use crate::rdf_store::RDFStore;
 use std::fs;
 
-pub fn run_demo() {
+pub fn run_demo() -> anyhow::Result<()> {
     let mut bc = Blockchain::new();
     let mut rdf_store = RDFStore::new();
 
@@ -47,9 +47,14 @@ pub fn run_demo() {
             println!("\n=== Running query: {} ===", qfile);
             if let oxigraph::sparql::QueryResults::Solutions(solutions) = rdf_store.query(&qtext) {
                 for solution in solutions {
-                    println!("{:?}", solution.unwrap());
+                    match solution {
+                        Ok(s) => println!("{:?}", s),
+                        Err(e) => eprintln!("Error resolving solution: {}", e),
+                    }
                 }
             }
         }
     }
+
+    Ok(())
 }

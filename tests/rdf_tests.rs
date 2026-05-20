@@ -1,5 +1,5 @@
-use uht_trace_blockchain::rdf_store::RDFStore;
 use oxigraph::sparql::QueryResults;
+use uht_trace_blockchain::rdf_store::RDFStore;
 
 #[test]
 fn test_rdf_insertion_and_query() {

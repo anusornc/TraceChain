@@ -1,7 +1,7 @@
-use oxigraph::store::Store;
+use oxigraph::io::GraphFormat;
 use oxigraph::model::*;
 use oxigraph::sparql::QueryResults;
-use oxigraph::io::GraphFormat;
+use oxigraph::store::Store;
 
 pub struct RDFStore {
     pub store: Store,
