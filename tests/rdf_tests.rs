@@ -29,3 +29,14 @@ fn test_rdf_insertion_and_query() {
         panic!("SPARQL query failed");
     }
 }
+
+#[test]
+#[should_panic(expected = "called `Result::unwrap()` on an `Err` value")]
+fn test_add_rdf_malformed_syntax() {
+    let mut store = RDFStore::new();
+    // This is deliberately malformed Turtle syntax
+    let malformed_data = "THIS IS NOT VALID TURTLE SYNTAX";
+
+    // add_rdf uses unwrap(), so this should panic
+    store.add_rdf(malformed_data);
+}
