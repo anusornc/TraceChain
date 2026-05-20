@@ -1,6 +1,6 @@
 use oxigraph::store::Store;
 use oxigraph::model::*;
-use oxigraph::sparql::QueryResults;
+use oxigraph::sparql::{QueryResults, EvaluationError};
 use oxigraph::io::GraphFormat;
 
 pub struct RDFStore {
@@ -25,7 +25,7 @@ impl RDFStore {
             .unwrap();
     }
 
-    pub fn query(&self, sparql: &str) -> QueryResults {
-        self.store.query(sparql).unwrap()
+    pub fn query(&self, sparql: &str) -> Result<QueryResults, EvaluationError> {
+        self.store.query(sparql)
     }
 }

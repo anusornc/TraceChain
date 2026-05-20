@@ -45,10 +45,14 @@ pub fn run_demo() {
         let path = format!("queries/{}", qfile);
         if let Ok(qtext) = fs::read_to_string(&path) {
             println!("\n=== Running query: {} ===", qfile);
-            if let oxigraph::sparql::QueryResults::Solutions(solutions) = rdf_store.query(&qtext) {
-                for solution in solutions {
-                    println!("{:?}", solution.unwrap());
+            match rdf_store.query(&qtext) {
+                Ok(oxigraph::sparql::QueryResults::Solutions(solutions)) => {
+                    for solution in solutions {
+                        println!("{:?}", solution.unwrap());
+                    }
                 }
+                Ok(_) => println!("Query executed, but did not return solutions."),
+                Err(e) => println!("Error executing query: {}", e),
             }
         }
     }
