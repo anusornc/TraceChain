@@ -22,10 +22,17 @@ fn test_rdf_insertion_and_query() {
         }
     "#;
 
-    if let QueryResults::Solutions(solutions) = store.query(query) {
+    if let Ok(QueryResults::Solutions(solutions)) = store.query(query) {
         let results: Vec<_> = solutions.collect();
         assert_eq!(results.len(), 1, "Should find exactly one milk batch");
     } else {
         panic!("SPARQL query failed");
     }
+}
+
+#[test]
+fn test_invalid_sparql_query() {
+    let store = RDFStore::new();
+    let result = store.query("INVALID QUERY");
+    assert!(result.is_err(), "Invalid query should return an error, not panic");
 }
