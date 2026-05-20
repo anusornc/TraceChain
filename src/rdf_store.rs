@@ -1,5 +1,5 @@
 use oxigraph::store::Store;
-use oxigraph::model::*;
+use oxigraph::model::GraphName;
 use oxigraph::sparql::QueryResults;
 use oxigraph::io::GraphFormat;
 
