@@ -35,8 +35,8 @@ fn main() {
             let mut bc = Blockchain::new();
             let mut store = RDFStore::new();
             let rdf_data = fs::read_to_string(path).expect("Cannot read RDF file");
-            bc.add_block(rdf_data.clone());
             store.add_rdf(&rdf_data);
+            bc.add_block(rdf_data);
             println!("Added RDF as block. Blockchain valid? {}", bc.is_valid());
         }
         Commands::Query { path } => {
