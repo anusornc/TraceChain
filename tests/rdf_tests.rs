@@ -1,8 +1,8 @@
-use uht_trace_blockchain::rdf_store::RDFStore;
 use oxigraph::sparql::QueryResults;
+use uht_trace_blockchain::rdf_store::RDFStore;
 
 #[test]
-fn test_rdf_insertion_and_query() {
+fn test_rdf_insertion_and_query() -> anyhow::Result<()> {
     let mut store = RDFStore::new();
     let turtle_data = r#"
         @prefix ex: <http://example.org/> .
@@ -12,7 +12,7 @@ fn test_rdf_insertion_and_query() {
             prov:wasAttributedTo ex:FarmerJohn .
     "#;
 
-    store.add_rdf(turtle_data);
+    store.add_rdf(turtle_data)?;
 
     let query = r#"
         PREFIX ex: <http://example.org/>
@@ -28,4 +28,6 @@ fn test_rdf_insertion_and_query() {
     } else {
         panic!("SPARQL query failed");
     }
+
+    Ok(())
 }
