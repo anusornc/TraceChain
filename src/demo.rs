@@ -2,7 +2,7 @@ use crate::blockchain::Blockchain;
 use crate::rdf_store::RDFStore;
 use std::fs;
 
-pub fn run_demo() {
+pub fn run_demo() -> anyhow::Result<()> {
     let mut bc = Blockchain::new();
     let mut rdf_store = RDFStore::new();
 
@@ -16,7 +16,7 @@ pub fn run_demo() {
             prov:generatedAtTime "2025-08-08T10:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     "#;
     bc.add_block(farmer_data.into());
-    rdf_store.add_rdf(farmer_data);
+    rdf_store.add_rdf(farmer_data)?;
 
     // Manufacturer RDF
     let manufacturer_data = r#"
@@ -29,7 +29,7 @@ pub fn run_demo() {
             prov:generatedAtTime "2025-08-08T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     "#;
     bc.add_block(manufacturer_data.into());
-    rdf_store.add_rdf(manufacturer_data);
+    rdf_store.add_rdf(manufacturer_data)?;
 
     println!("Blockchain valid? {}", bc.is_valid());
 
@@ -52,4 +52,6 @@ pub fn run_demo() {
             }
         }
     }
+
+    Ok(())
 }

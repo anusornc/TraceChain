@@ -1,6 +1,6 @@
 use chrono::Utc;
-use serde::{Serialize, Deserialize};
-use sha2::{Sha256, Digest};
+use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Block {
@@ -39,6 +39,12 @@ pub struct Blockchain {
     pub chain: Vec<Block>,
 }
 
+impl Default for Blockchain {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Blockchain {
     pub fn new() -> Self {
         let mut bc = Blockchain { chain: Vec::new() };
@@ -56,11 +62,7 @@ impl Blockchain {
 
     pub fn add_block(&mut self, data: String) {
         let prev_block = self.chain.last().unwrap();
-        let new_block = Block::new(
-            prev_block.index + 1,
-            data,
-            prev_block.hash.clone(),
-        );
+        let new_block = Block::new(prev_block.index + 1, data, prev_block.hash.clone());
         self.chain.push(new_block);
     }
 
