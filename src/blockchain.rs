@@ -27,7 +27,7 @@ impl Block {
 
     pub fn calculate_hash(&self) -> String {
         let mut hasher = Sha256::new();
-        hasher.update(self.index.to_string().as_bytes());
+        hasher.update(self.index.to_le_bytes());
         hasher.update(self.timestamp.as_bytes());
         hasher.update(self.data.as_bytes());
         hasher.update(self.previous_hash.as_bytes());
