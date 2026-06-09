@@ -31,3 +31,11 @@ fn test_rdf_insertion_and_query() -> anyhow::Result<()> {
 
     Ok(())
 }
+
+#[test]
+fn test_add_invalid_rdf_returns_error() {
+    let mut store = RDFStore::new();
+    let malformed_turtle = "This is not valid Turtle syntax";
+    let result = store.add_rdf(malformed_turtle);
+    assert!(result.is_err(), "Expected an error when adding invalid RDF data");
+}
