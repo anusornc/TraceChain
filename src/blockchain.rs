@@ -78,7 +78,7 @@ impl Blockchain {
         for i in 1..self.chain.len() {
             let current = &self.chain[i];
             let prev = &self.chain[i - 1];
-            if current.hash != current.calculate_hash() || current.previous_hash != prev.hash {
+            if current.previous_hash != prev.hash || current.hash != current.calculate_hash() {
                 return false;
             }
         }
