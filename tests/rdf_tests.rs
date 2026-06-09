@@ -3,7 +3,7 @@ use uht_trace_blockchain::rdf_store::RDFStore;
 
 #[test]
 fn test_rdf_insertion_and_query() -> anyhow::Result<()> {
-    let mut store = RDFStore::new();
+    let mut store = RDFStore::new()?;
     let turtle_data = r#"
         @prefix ex: <http://example.org/> .
         @prefix prov: <http://www.w3.org/ns/prov#> .

@@ -35,7 +35,10 @@ fn test_blockchain_detect_intermediate_tampering() {
     // Tamper with intermediate block (index 1)
     bc.chain[1].data = "tampered block 1".into();
 
-    assert!(!bc.is_valid(), "Blockchain should be invalid after tampering an intermediate block");
+    assert!(
+        !bc.is_valid(),
+        "Blockchain should be invalid after tampering an intermediate block"
+    );
 }
 
 #[test]

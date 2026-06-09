@@ -4,7 +4,7 @@ use std::fs;
 
 pub fn run_demo() -> anyhow::Result<()> {
     let mut bc = Blockchain::new();
-    let mut rdf_store = RDFStore::new();
+    let mut rdf_store = RDFStore::new()?;
 
     // Farmer RDF
     let farmer_data = r#"
