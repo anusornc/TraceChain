@@ -31,3 +31,12 @@ fn test_rdf_insertion_and_query() -> anyhow::Result<()> {
 
     Ok(())
 }
+
+#[test]
+#[should_panic(expected = "called `Result::unwrap()` on an `Err` value")]
+fn test_invalid_sparql_query() {
+    let store = RDFStore::new();
+    let query = "INVALID SPARQL QUERY";
+    // This should panic because the SPARQL query is invalid
+    let _ = store.query(query);
+}
