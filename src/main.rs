@@ -46,7 +46,7 @@ fn main() -> anyhow::Result<()> {
                 .map_err(|e| anyhow::anyhow!("Cannot read query file: {}", e))?;
             if let oxigraph::sparql::QueryResults::Solutions(solutions) = store.query(&query) {
                 for solution in solutions {
-                    println!("{:?}", solution.unwrap());
+                    println!("{:?}", solution?);
                 }
             }
         }
