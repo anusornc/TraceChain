@@ -47,7 +47,7 @@ pub fn run_demo() -> anyhow::Result<()> {
             println!("\n=== Running query: {} ===", qfile);
             if let oxigraph::sparql::QueryResults::Solutions(solutions) = rdf_store.query(&qtext) {
                 for solution in solutions {
-                    println!("{:?}", solution.unwrap());
+                    println!("{:?}", solution?);
                 }
             }
         }
