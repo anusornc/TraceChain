@@ -22,7 +22,7 @@ fn test_rdf_insertion_and_query() -> anyhow::Result<()> {
         }
     "#;
 
-    if let QueryResults::Solutions(solutions) = store.query(query) {
+    if let Ok(QueryResults::Solutions(solutions)) = store.query(query) {
         let results: Vec<_> = solutions.collect();
         assert_eq!(results.len(), 1, "Should find exactly one milk batch");
     } else {
@@ -30,4 +30,13 @@ fn test_rdf_insertion_and_query() -> anyhow::Result<()> {
     }
 
     Ok(())
+}
+
+#[test]
+fn test_invalid_sparql_query_returns_err() {
+    let store = RDFStore::new();
+    let invalid_query = "SELECT ?x WHERE { ?x a ex:Milk"; // Missing closing brace
+
+    let result = store.query(invalid_query);
+    assert!(result.is_err(), "Invalid SPARQL query should return an Err, not panic or succeed");
 }

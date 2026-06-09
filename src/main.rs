@@ -44,10 +44,14 @@ fn main() -> anyhow::Result<()> {
             let store = RDFStore::new(); // In a real case, load previous blocks' RDF
             let query = fs::read_to_string(path)
                 .map_err(|e| anyhow::anyhow!("Cannot read query file: {}", e))?;
-            if let oxigraph::sparql::QueryResults::Solutions(solutions) = store.query(&query) {
-                for solution in solutions {
-                    println!("{:?}", solution.unwrap());
+            match store.query(&query) {
+                Ok(oxigraph::sparql::QueryResults::Solutions(solutions)) => {
+                    for solution in solutions {
+                        println!("{:?}", solution.unwrap());
+                    }
                 }
+                Ok(_) => println!("Query succeeded but did not return solutions."),
+                Err(e) => eprintln!("Error executing query: {}", e),
             }
         }
         Commands::Demo => {

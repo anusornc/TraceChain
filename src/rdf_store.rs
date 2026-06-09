@@ -30,7 +30,7 @@ impl RDFStore {
         Ok(())
     }
 
-    pub fn query(&self, sparql: &str) -> QueryResults {
-        self.store.query(sparql).unwrap()
+    pub fn query(&self, sparql: &str) -> Result<QueryResults, oxigraph::sparql::EvaluationError> {
+        self.store.query(sparql)
     }
 }
