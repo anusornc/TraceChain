@@ -36,7 +36,7 @@ fn main() -> anyhow::Result<()> {
             let mut store = RDFStore::new();
             let rdf_data = fs::read_to_string(path)
                 .map_err(|e| anyhow::anyhow!("Cannot read RDF file: {}", e))?;
-            bc.add_block(rdf_data.clone());
+            bc.add_block(rdf_data.clone()).map_err(|e| anyhow::anyhow!(e))?;
             store.add_rdf(&rdf_data)?;
             println!("Added RDF as block. Blockchain valid? {}", bc.is_valid());
         }

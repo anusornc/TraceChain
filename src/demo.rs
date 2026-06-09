@@ -15,7 +15,7 @@ pub fn run_demo() -> anyhow::Result<()> {
             prov:wasAttributedTo ex:FarmerJohn ;
             prov:generatedAtTime "2025-08-08T10:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     "#;
-    bc.add_block(farmer_data.into());
+    bc.add_block(farmer_data.into()).map_err(|e| anyhow::anyhow!(e))?;
     rdf_store.add_rdf(farmer_data)?;
 
     // Manufacturer RDF
@@ -28,7 +28,7 @@ pub fn run_demo() -> anyhow::Result<()> {
             prov:wasAttributedTo ex:UHTFactoryA ;
             prov:generatedAtTime "2025-08-08T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     "#;
-    bc.add_block(manufacturer_data.into());
+    bc.add_block(manufacturer_data.into()).map_err(|e| anyhow::anyhow!(e))?;
     rdf_store.add_rdf(manufacturer_data)?;
 
     println!("Blockchain valid? {}", bc.is_valid());

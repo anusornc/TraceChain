@@ -60,10 +60,11 @@ impl Blockchain {
         )
     }
 
-    pub fn add_block(&mut self, data: String) {
-        let prev_block = self.chain.last().unwrap();
+    pub fn add_block(&mut self, data: String) -> Result<(), &'static str> {
+        let prev_block = self.chain.last().ok_or("Blockchain is empty")?;
         let new_block = Block::new(prev_block.index + 1, data, prev_block.hash.clone());
         self.chain.push(new_block);
+        Ok(())
     }
 
     pub fn is_valid(&self) -> bool {
