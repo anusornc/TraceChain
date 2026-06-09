@@ -51,3 +51,21 @@ fn test_blockchain_detect_intermediate_tampering_hash_update() {
 
     assert!(!bc.is_valid(), "Blockchain should be invalid even if tampered block's hash is recalculated, because the next block's previous_hash won't match");
 }
+
+#[test]
+fn test_hash_collision_prevention() {
+    use uht_trace_blockchain::blockchain::Block;
+
+    // Suppose a malicious user tries to shift data between fields to get the same hash
+    let mut block1 = Block::new(1, "some_data".into(), "prev_hash".into());
+    block1.timestamp = "2023-10-27T10:00:00Z_ext".into(); // Timestamp includes the shift
+
+    let mut block2 = Block::new(1, "_extsome_data".into(), "prev_hash".into());
+    block2.timestamp = "2023-10-27T10:00:00Z".into();
+
+    let hash1 = block1.calculate_hash();
+    let hash2 = block2.calculate_hash();
+
+    // The hashes must be different due to the null byte delimiter
+    assert_ne!(hash1, hash2, "Hashes should not collide even if data is shifted between adjacent fields");
+}
