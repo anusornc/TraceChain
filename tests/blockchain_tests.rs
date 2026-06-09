@@ -3,8 +3,8 @@ use uht_trace_blockchain::blockchain::Blockchain;
 #[test]
 fn test_blockchain_add_and_validate() {
     let mut bc = Blockchain::new();
-    bc.add_block("test data".into());
-    bc.add_block("more test data".into());
+    bc.add_block("test data".into()).unwrap();
+    bc.add_block("more test data".into()).unwrap();
 
     assert!(
         bc.is_valid(),
@@ -15,7 +15,7 @@ fn test_blockchain_add_and_validate() {
 #[test]
 fn test_blockchain_detect_tampering() {
     let mut bc = Blockchain::new();
-    bc.add_block("original".into());
+    bc.add_block("original".into()).unwrap();
 
     // Tamper with a block
     bc.chain[0].data = "tampered".into();
@@ -29,8 +29,8 @@ fn test_blockchain_detect_tampering() {
 #[test]
 fn test_blockchain_detect_intermediate_tampering() {
     let mut bc = Blockchain::new();
-    bc.add_block("block 1".into());
-    bc.add_block("block 2".into());
+    bc.add_block("block 1".into()).unwrap();
+    bc.add_block("block 2".into()).unwrap();
 
     // Tamper with intermediate block (index 1)
     bc.chain[1].data = "tampered block 1".into();
@@ -41,8 +41,8 @@ fn test_blockchain_detect_intermediate_tampering() {
 #[test]
 fn test_blockchain_detect_intermediate_tampering_hash_update() {
     let mut bc = Blockchain::new();
-    bc.add_block("block 1".into());
-    bc.add_block("block 2".into());
+    bc.add_block("block 1".into()).unwrap();
+    bc.add_block("block 2".into()).unwrap();
 
     // Tamper with intermediate block (index 1)
     bc.chain[1].data = "tampered block 1".into();
