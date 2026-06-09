@@ -39,6 +39,17 @@ fn test_blockchain_detect_intermediate_tampering() {
 }
 
 #[test]
+fn test_blockchain_empty_invalid() {
+    let mut bc = Blockchain::new();
+    // Simulate an empty blockchain
+    bc.chain.clear();
+    assert!(
+        !bc.is_valid(),
+        "Blockchain should be invalid if it is empty"
+    );
+}
+
+#[test]
 fn test_blockchain_detect_intermediate_tampering_hash_update() {
     let mut bc = Blockchain::new();
     bc.add_block("block 1".into());
