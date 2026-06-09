@@ -22,7 +22,7 @@ fn test_rdf_insertion_and_query() -> anyhow::Result<()> {
         }
     "#;
 
-    if let QueryResults::Solutions(solutions) = store.query(query) {
+    if let Ok(QueryResults::Solutions(solutions)) = store.query(query) {
         let results: Vec<_> = solutions.collect();
         assert_eq!(results.len(), 1, "Should find exactly one milk batch");
     } else {
