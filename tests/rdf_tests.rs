@@ -31,3 +31,15 @@ fn test_rdf_insertion_and_query() -> anyhow::Result<()> {
 
     Ok(())
 }
+
+#[test]
+fn test_rdf_insertion_invalid_data() {
+    let mut store = RDFStore::new();
+    let invalid_turtle_data = r#"
+        This is not valid Turtle syntax.
+        It should fail to parse.
+    "#;
+
+    let result = store.add_rdf(invalid_turtle_data);
+    assert!(result.is_err(), "Adding invalid RDF data should return an error");
+}
