@@ -33,7 +33,7 @@ fn main() -> anyhow::Result<()> {
     match cli.command {
         Commands::AddFile { path } => {
             let mut bc = Blockchain::new();
-            let mut store = RDFStore::new();
+            let mut store = RDFStore::new()?;
             let rdf_data = fs::read_to_string(path)
                 .map_err(|e| anyhow::anyhow!("Cannot read RDF file: {}", e))?;
             bc.add_block(rdf_data.clone());
@@ -41,7 +41,7 @@ fn main() -> anyhow::Result<()> {
             println!("Added RDF as block. Blockchain valid? {}", bc.is_valid());
         }
         Commands::Query { path } => {
-            let store = RDFStore::new(); // In a real case, load previous blocks' RDF
+            let store = RDFStore::new()?; // In a real case, load previous blocks' RDF
             let query = fs::read_to_string(path)
                 .map_err(|e| anyhow::anyhow!("Cannot read query file: {}", e))?;
             if let oxigraph::sparql::QueryResults::Solutions(solutions) = store.query(&query) {

@@ -1,6 +1,6 @@
-use uht_trace_blockchain::blockchain::Block;
 use sha2::{Digest, Sha256};
 use std::time::Instant;
+use uht_trace_blockchain::blockchain::Block;
 
 fn main() {
     let block = Block::new(1, "x".repeat(1000), "0".repeat(64));
